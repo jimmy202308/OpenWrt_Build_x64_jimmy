@@ -4,27 +4,12 @@
 # 自行拉取插件之前请SSH连接进入固件配置里面确认过没有你要的插件再单独拉取你需要的插件
 # 不要一下就拉取别人一个插件包N多插件的，多了没用，增加编译错误，自己需要的才好
 
-#添加homeproxy插件
-git clone https://github.com/douglarek/luci-app-homeproxy.git package/luci-app-homeproxy
+#添加chatgpt插件
+git clone https://github.com/sirpdboy/chatgpt-web.git package/luci-app-chatgpt
 
-#添加unblockneteasemusic插件
-git clone https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/luci-app-unblockneteasemusic
-
-
-#添加CPU使用率、编译作者、固件下载地址
-sed -i '/<tr><td width="33%"><%:CPU usage/a <tr><td width="33%"><%:Compiler author%></td><td><a target="_blank" href="https://wp.gxnas.com">【GXNAS博客】https://wp.gxnas.com</a></td></tr>' package/lean/autocore/files/x86/index.htm
-sed -i '5a\msgid "Compiler author"' feeds/luci/modules/luci-base/po/zh-cn/base.po
-sed -i '6a\msgstr "固件编译者"' feeds/luci/modules/luci-base/po/zh-cn/base.po
-sed -i '7a \\' feeds/luci/modules/luci-base/po/zh-cn/base.po
-sed -i '/<tr><td width="33%"><%:Compiler author/a <tr><td width="33%"><%:Firmware Update%></td><td><a target="_blank" href="https://d.gxnas.com/GXNAS%E7%BD%91%E7%9B%98-OneDrive/OpenWrt_x64%EF%BC%88%E8%BD%AF%E8%B7%AF%E7%94%B1%E7%B3%BB%E7%BB%9F_64%E4%BD%8D%EF%BC%89">点这里下载最新版本</a></td></tr>' package/lean/autocore/files/x86/index.htm
-
-#添加汉化
-sed -i '8a\msgid "Firmware Update"' feeds/luci/modules/luci-base/po/zh-cn/base.po
-sed -i '9a\msgstr "固件出处"' feeds/luci/modules/luci-base/po/zh-cn/base.po
-sed -i '10a \\' feeds/luci/modules/luci-base/po/zh-cn/base.po
 
 # 后台IP设置
-export Ipv4_ipaddr="192.168.1.1"             # 修改openwrt后台地址(填0为关闭)
+export Ipv4_ipaddr="192.168.1.11"            # 修改openwrt后台地址(填0为关闭)
 export Netmask_netm="255.255.255.0"          # IPv4 子网掩码（默认：255.255.255.0）(填0为不作修改)
 export Op_name="OpenWrt-GXNAS"               # 修改主机名称为OpenWrt-123(填0为不作修改)
 
@@ -37,15 +22,15 @@ export Mandatory_theme="argon"               # 将bootstrap替换您需要的主
 export Default_theme="argon"                 # 多主题时,选择某主题为默认第一主题 (填写主题名称,填0为不作修改)
 
 # 旁路由选项
-export Gateway_Settings="0"                  # 旁路由设置 IPv4 网关(填入您的网关IP为启用)(填0为不作修改)
-export DNS_Settings="0"                      # 旁路由设置 DNS(填入DNS，多个DNS要用空格分开)(填0为不作修改)
+export Gateway_Settings="192.168.1.1"        # 旁路由设置 IPv4 网关(填入您的网关IP为启用)(填0为不作修改)
+export DNS_Settings="223.5.5.5 114.114.114.114"                      # 旁路由设置 DNS(填入DNS，多个DNS要用空格分开)(填0为不作修改)
 export Broadcast_Ipv4="0"                    # 设置 IPv4 广播(填入您的IP为启用)(填0为不作修改)
-export Disable_DHCP="0"                      # 旁路由关闭DHCP功能(1为启用命令,填0为不作修改)
-export Disable_Bridge="0"                    # 旁路由去掉桥接模式(1为启用命令,填0为不作修改)
+export Disable_DHCP="1"                      # 旁路由关闭DHCP功能(1为启用命令,填0为不作修改)
+export Disable_Bridge="1"                    # 旁路由去掉桥接模式(1为启用命令,填0为不作修改)
 export Create_Ipv6_Lan="0"                   # 爱快+OP双系统时,爱快接管IPV6,在OP创建IPV6的lan口接收IPV6信息(1为启用命令,填0为不作修改)
 
 # IPV6、IPV4 选择
-export Enable_IPV6_function="1"              # 编译IPV6固件(1为启用命令,填0为不作修改)(如果跟Create_Ipv6_Lan一起启用命令的话,Create_Ipv6_Lan命令会自动关闭)
+export Enable_IPV6_function="0"              # 编译IPV6固件(1为启用命令,填0为不作修改)(如果跟Create_Ipv6_Lan一起启用命令的话,Create_Ipv6_Lan命令会自动关闭)
 export Enable_IPV4_function="1"              # 编译IPV4固件(1为启用命令,填0为不作修改)(如果跟Enable_IPV6_function一起启用命令的话,此命令会自动关闭)
 
 # 替换passwall的源码(默认luci分支)
@@ -53,14 +38,13 @@ export PassWall_luci_branch="0"              # passwall的源码分别有【luci
 
 # 替换OpenClash的源码(默认master分支)
 export OpenClash_branch="0"                  # OpenClash的源码分别有【master分支】和【dev分支】(填0为使用master分支,填1为使用dev分支)
-export OpenClash_Core="2"                    # 增加OpenClash时,把核心下载好,(填1为下载【dev单核】,填2为下载【dev/meta/premium三核】,填0为不需要核心)
+export OpenClash_Core="1"                    # 增加OpenClash时,把核心下载好,(填1为下载【dev单核】,填2为下载【dev/meta/premium三核】,填0为不需要核心)
 
 # 个性签名,默认增加年月日[$(TZ=UTC-8 date "+%Y.%m.%d")]
-export Customized_Information="OpenWrt_x64_全功能版 by GXNAS build $(TZ=UTC-8 date "+%Y.%m.%d")"  # 个性签名,你想写啥就写啥，(填0为不作修改)
+export Customized_Information="OpenWrt_x64_旁路由版 by GXNAS build $(TZ=UTC-8 date "+%Y.%m.%d")"  # 个性签名,你想写啥就写啥，(填0为不作修改)
 
 # 更换固件内核
-#export Replace_Kernel="6.1"                  # 更换内核版本,在对应源码的[target/linux/架构]查看patches-x.x,看看x.x有啥就有啥内核了(填入内核x.x版本号,填0为不作修改)
-export Replace_Kernel="0"                  # 更换内核版本,在对应源码的[target/linux/架构]查看patches-x.x,看看x.x有啥就有啥内核了(填入内核x.x版本号,填0为不作修改)
+export Replace_Kernel="6.1"                  # 更换内核版本,在对应源码的[target/linux/架构]查看patches-x.x,看看x.x有啥就有啥内核了(填入内核x.x版本号,填0为不作修改)
 
 # 设置免密码登录(个别源码本身就没密码的)
 export Password_free_login="1"               # 设置首次登录后台密码为空（进入openwrt后自行修改密码）(1为启用命令,填0为不作修改)
